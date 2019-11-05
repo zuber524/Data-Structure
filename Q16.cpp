@@ -41,8 +41,10 @@ class arr
 				case 1:bbl();	break;
 				case 2:ist();	break;
 				case 3:slc();	break;
-			/*	case 4:mrg();	break;
-				case 5:qck();	break;*/
+				case 4:mrg(0,n);		cout<<"\nSorted.";
+				break;
+				case 5:qck(0,n);		cout<<"\nSorted.";
+				break;
 				case 6:lnr();	break;
 				case 7:bnr();	break;
 				case 100:show();	break;
@@ -106,7 +108,76 @@ class arr
 		}
 		cout<<"\nSorted.";
 	}
-				
+	
+	int partition(int beg,int end)
+	{
+		int p=beg,pivot=a[beg];
+		for(int loc=beg+1;loc<=end;loc++)
+		{
+			if(pivot>a[loc])
+			{
+				a[p]=a[loc];
+				a[loc]=a[p+1];
+				a[p+1]=pivot;
+				p=p+1;
+			}
+		}
+		return p;
+	}
+	
+	void qck(int beg,int end)
+	{
+		if(beg<end)
+		{
+			int p=partition(beg,end);
+			qck(beg,p-1);
+			qck(p+1,end);
+		}
+	}
+	
+	int merge(int beg,int end,int mid)
+	{
+		int i=beg,j=mid+1,k=beg,c[50];
+		while(i<=mid&&j<=end)
+		{
+			if(a[i]<a[j])
+			{
+				c[k]=a[i];
+				k++;	i++;
+			}
+			else
+			{
+				c[k]=a[j];
+				k++;	j++;
+			}
+		}
+		while(i<=mid)
+		{
+			c[k]=a[i];
+			k++;	i++;
+		}
+		while(j<=end)
+		{
+			c[k]=a[j];
+			k++;	j++;
+		}
+		for(i=beg;i<k;i++)
+		a[i]=c[i];
+	}
+	
+	void mrg(int beg,int end)
+	{
+		int mid;
+		if(beg<end)
+		{
+			mid=(beg+end)/2;
+			mrg(beg,mid);
+			mrg(mid+1,end);
+			merge(beg,end,mid);
+		}
+	}
+	
+					
 	void lnr()
 	{
 		cout<<"\nSearch=";
